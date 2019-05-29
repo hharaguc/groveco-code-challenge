@@ -33,12 +33,12 @@ import json
 # Using the MapQuest Geocoding API to geocode the zip code and address arguments
 # Geocoding API documentation: https://developer.mapquest.com/documentation/geocoding-api/address/get/
 # Geocoding API sandbox: https://developer.mapquest.com/documentation/samples/geocoding/v1/address/ 
-api_key = json.loads(open("mapquest_api_key.json").read())["api_key"]
+api_key = json.loads(open("../mapquest_api_key.json").read())["api_key"]
 mapquest_geocode_endpt = 'http://www.mapquestapi.com/geocoding/v1/address?key=' + api_key + '&location='
 
 # Reads the .csv file of stores
 def load_stores_list():
-    return list(DictReader(open("./store-locations.csv")))
+    return list(DictReader(open("../store-locations.csv")))
 
 # Gets the geocode of the starting location
 def get_start_loc_geocode(start_loc):
@@ -110,11 +110,12 @@ if __name__ == '__main__':
 
     if output == 'text':
         print('''
-            You are %.2f %s away from the nearest store. Your nearest store is located here:
+            You are %.2f %s away from your nearest store:
+            %s
             %s, 
             %s, %s %s
             ''' % 
-            (store_details['Distance Away'], units, store_details['Address'], store_details['City'], 
-                store_details['State'], store_details['Zip Code']))
+            (store_details['Distance Away'], units, store_details['Store Name'], store_details['Address'],
+                store_details['City'], store_details['State'], store_details['Zip Code']))
     else: # output == 'json'
         print(json.dumps(store_details, indent=4, sort_keys=True))
