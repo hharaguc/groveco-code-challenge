@@ -38,7 +38,7 @@ You will also need to sign up for an account on [MapQuest's Developer Site](http
 
 Now you're all ready to run the Find Store app!
 
-# Examples
+# Output Examples
 ```
 python app/find_store.py --address="1770 Union St, San Francisco, CA 94123"
 
