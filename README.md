@@ -10,6 +10,7 @@ My solution works as follows:
 5. Prints information about the nearest store and its distance away from the starting location
 
 # Assumptions/Caveats
+- The program assumes that your terminal's environment is set up for python3/pip3
 - The program must be ran from the root directory (as shown in the commands below) to avoid relative file path issues.
 - I assumed that the Haversine formula would be acceptable for calculating distance in this project.
 - I am not doing any validation on the `--zip` or `--address` command line arguments. Related to this, I am not doing any validation on the response after calling the MapQuest Geocode API either, outside of checking for status code 200. This code would break if the API returned an empty `results` or `locations` array.
