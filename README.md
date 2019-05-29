@@ -31,7 +31,7 @@ If you need to update your Python, you can visit [python.org](https://www.python
 
 Install the program's dependencies.
 ```
-pip install requirements.txt
+pip install -r requirements.txt
 ```
 
 You will also need to sign up for an account on [MapQuest's Developer Site](https://developer.mapquest.com/plan_purchase/steps/business_edition/business_edition_free/register) in order to get a key for their geocoding API. After you register, copy your `Consumer Key` and paste it into the `mapquest_api_key.json` file, located at the root of the project.
