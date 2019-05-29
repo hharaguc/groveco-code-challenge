@@ -102,7 +102,7 @@ if __name__ == '__main__':
     # Find the closest store
     stores_list = load_stores_list()
     start_lat_lng = get_start_loc_geocode(start_loc)
-    closest_store = find_closest_store(start_lat_lng, units, output, stores_list)
+    closest_store = find_closest_store(start_lat_lng, units, stores_list)
     
     # Print the results!
     store_details = stores_list[closest_store['idx']]
