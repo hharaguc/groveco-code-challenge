@@ -20,7 +20,7 @@ Ensure your Python version is >= 3.5.0. You can check your Python version by run
 python --version
 ```
 
-If you need to update your Python, visit [python.org](https://www.python.org/).
+If you need to update your Python, you can visit [python.org](https://www.python.org/).
 
 Install the program's dependencies.
 ```
