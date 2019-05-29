@@ -17,7 +17,7 @@ My solution works as follows:
 # Let's Get Running
 Clone the repository. 
 ```
-https://github.com/hharaguc/groveco-code-challenge.git
+git clone https://github.com/hharaguc/groveco-code-challenge.git
 ```
 
 Ensure your Python version is >= 3.5.0. You can check your Python version by running the following command in your terminal:
