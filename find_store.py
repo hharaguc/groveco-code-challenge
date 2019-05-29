@@ -26,19 +26,62 @@ Example
 from docopt import docopt
 from docopt import __version__ as VERSION
 from csv import DictReader
+from math import cos, asin, sqrt
+import requests
+import json
 
-def parse_stores_file():
-    store_locations = DictReader(open("./store-locations.csv"))
+# Using the MapQuest Geocoding API to geocode the zip code and address arguments
+# Geocoding API documentation: https://developer.mapquest.com/documentation/geocoding-api/address/get/
+# Geocoding API sandbox: https://developer.mapquest.com/documentation/samples/geocoding/v1/address/ 
+api_key = json.loads(open("mapquest_api_key.json").read())["api_key"]
+mapquest_geocode_endpt = 'http://www.mapquestapi.com/geocoding/v1/address?key=' + api_key + '&location='
 
-    # for store in store_locations:
-        # print(store)
+# Reads the .csv file of stores
+def load_stores_list():
+    return list(DictReader(open("./store-locations.csv")))
 
+# Gets the geocode of the starting location
+def get_start_loc_geocode(start_loc):
+    try:
+        response = requests.get(mapquest_geocode_endpt + start_loc)
+        response.raise_for_status()
+        response_content = json.loads(response.content.decode('utf-8'))
+        start_lat_lng = response_content['results'][0]['locations'][0]['displayLatLng']
+        return start_lat_lng
+    except requests.exceptions.RequestException as e:
+        print(e)
+        sys.exit(1)
+
+# Calculates the distance between two points using the Haversine formula
+# Reference: https://stackoverflow.com/questions/41336756/find-the-closest-latitude-and-longitude
+def calc_distance(lat1, lon1, lat2, lon2):
+    p = 0.017453292519943295
+    a = 0.5 - cos((lat2-lat1)*p)/2 + cos(lat1*p)*cos(lat2*p) * (1-cos((lon2-lon1)*p)) / 2
+    return 12742 * asin(sqrt(a))
+
+# Calculates the distance from the starting point to each store
+# and return the index of the nearest store
+def find_closest_store(start_lat_lng, units, output, stores_list):
+    distances = {}
+    start_lat = start_lat_lng['lat']
+    start_lng = start_lat_lng['lng']
+
+    for idx, store in enumerate(stores_list):
+        end_lat = float(store['Latitude'])
+        end_lng = float(store['Longitude'])
+
+        distances[idx] = calc_distance(start_lat, start_lng, end_lat, end_lng)
+
+    closest_store = {}
+    closest_store['idx'] = min(distances, key=distances.get)
+    closest_store['distance_to'] = distances[closest_store['idx']]
+    return closest_store
 
 if __name__ == '__main__':
     expected_units = ['mi', 'km']
     expected_outputs = ['text', 'json']
 
-    # parse and validate command line arguments
+    # Parse and validate command line arguments
     args = docopt(__doc__, version=VERSION)
     start_loc = args['--address'] if args['--address'] else args['--zip']
     units = args['--units']
@@ -49,7 +92,15 @@ if __name__ == '__main__':
     if output not in expected_outputs:
         exit(output + ' is not a valid --output argument.' + __doc__)
 
-    print(start_loc)
-    print(units)
+    stores_list = load_stores_list()
+    start_lat_lng = get_start_loc_geocode(start_loc)
+
+
+    closest_store_idx = find_closest_store(start_lat_lng, units, output, stores_list)
+    # closest_store = stores_list[closest_store_idx]
+
+
+    print(closest_store_idx)
+    # print(start_loc)
+    # print(units)
     print(args)
-    parse_stores_file()
