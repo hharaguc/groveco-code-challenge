@@ -61,7 +61,7 @@ def calc_distance(lat1, lon1, lat2, lon2):
 
 # Calculates the distance from the starting point to each store
 # Returns the index of the nearest store and the distance away (in the specified |units|)
-def find_closest_store(start_lat_lng, units, output, stores_list):
+def find_closest_store(start_lat_lng, units, stores_list):
     KM_TO_MI = .621371
 
     distances = {}
