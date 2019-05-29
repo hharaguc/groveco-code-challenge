@@ -60,8 +60,10 @@ def calc_distance(lat1, lon1, lat2, lon2):
     return 12742 * asin(sqrt(a))
 
 # Calculates the distance from the starting point to each store
-# and return the index of the nearest store
+# Returns the index of the nearest store and the distance away (in the specified |units|)
 def find_closest_store(start_lat_lng, units, output, stores_list):
+    KM_TO_MI = .621371
+
     distances = {}
     start_lat = start_lat_lng['lat']
     start_lng = start_lat_lng['lng']
@@ -74,7 +76,12 @@ def find_closest_store(start_lat_lng, units, output, stores_list):
 
     closest_store = {}
     closest_store['idx'] = min(distances, key=distances.get)
-    closest_store['distance_to'] = distances[closest_store['idx']]
+
+    if units == 'km':
+        closest_store['distance_away'] = distances[closest_store['idx']]
+    else: # units == 'mi'
+        closest_store['distance_away'] = distances[closest_store['idx']] * KM_TO_MI
+
     return closest_store
 
 if __name__ == '__main__':
@@ -92,15 +99,22 @@ if __name__ == '__main__':
     if output not in expected_outputs:
         exit(output + ' is not a valid --output argument.' + __doc__)
 
+    # Find the closest store
     stores_list = load_stores_list()
     start_lat_lng = get_start_loc_geocode(start_loc)
+    closest_store = find_closest_store(start_lat_lng, units, output, stores_list)
+    
+    # Print the results!
+    store_details = stores_list[closest_store['idx']]
+    store_details['Distance Away'] = closest_store['distance_away']
 
-
-    closest_store_idx = find_closest_store(start_lat_lng, units, output, stores_list)
-    # closest_store = stores_list[closest_store_idx]
-
-
-    print(closest_store_idx)
-    # print(start_loc)
-    # print(units)
-    print(args)
+    if output == 'text':
+        print('''
+            You are %.2f %s away from the nearest store. Your nearest store is located here:
+            %s, 
+            %s, %s %s
+            ''' % 
+            (store_details['Distance Away'], units, store_details['Address'], store_details['City'], 
+                store_details['State'], store_details['Zip Code']))
+    else: # output == 'json'
+        print(json.dumps(store_details, indent=4, sort_keys=True))
