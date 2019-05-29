@@ -7,7 +7,7 @@ My solution works as follows:
 2. Reads the given `store-locations.csv` file
 3. Geocodes the starting location from either the `address` or `zip` argument
 4. Calculates the distance from the starting location to each store from `store-locations.csv` using the [Haversine formula](https://stackoverflow.com/questions/41336756/find-the-closest-latitude-and-longitude). Note that this formula calculates an "as-the-crow-flies"/straight line distance, not driving distance.
-5. Prints information about the nearest store and its distance away from the starting location. 
+5. Prints information about the nearest store and its distance away from the starting location
 
 # Assumptions/Caveats
 - The program must be ran from the root directory (as shown in the commands below) to avoid relative file path issues.
