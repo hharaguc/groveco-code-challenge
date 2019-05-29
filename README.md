@@ -58,7 +58,7 @@ python app/find_store.py --zip=94123 --units=km --output=json
 ```
 
 # Testing
-The unit tests can be ran with the following command:
+The unit tests can be ran from the project root with the following command:
 ```
 python -m py.test
 ```
