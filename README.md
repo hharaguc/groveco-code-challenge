@@ -15,9 +15,11 @@ My solution works as follows:
 - I am not doing any validation on the `--zip` or `--address` command line arguments. Related to this, I am not doing any validation on the response after calling the MapQuest Geocode API either, outside of checking for status code 200. This code would break if the API returned an empty `results` or `locations` array.
 
 # Let's Get Running
-Clone the repository. 
+Clone the repository, then change to the project directory.
 ```
 git clone https://github.com/hharaguc/groveco-code-challenge.git
+
+cd groveco-code-challenge
 ```
 
 Ensure your Python version is >= 3.5.0. You can check your Python version by running the following command in your terminal:
@@ -29,7 +31,7 @@ If you need to update your Python, you can visit [python.org](https://www.python
 
 Install the program's dependencies.
 ```
-pip install requirements.txt
+pip install -r requirements.txt
 ```
 
 You will also need to sign up for an account on [MapQuest's Developer Site](https://developer.mapquest.com/plan_purchase/steps/business_edition/business_edition_free/register) in order to get a key for their geocoding API. After you register, copy your `Consumer Key` and paste it into the `mapquest_api_key.json` file, located at the root of the project.
