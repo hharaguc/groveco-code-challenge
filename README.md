@@ -62,7 +62,7 @@ The unit tests can be ran from the project root with the following command:
 ```
 python -m py.test
 ```
-
+While the tests written cover unit tests, given more time I could have written integration tests and mocked the MapQuest API response to ensure that non-200 responses/exceptions were being handled and communicated gracefully.
 
 
 
